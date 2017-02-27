@@ -13,11 +13,17 @@ class Tweet: NSObject {
     var timestamp: Date?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
+    var tweeterProfileUrl: String?
+    var tweeterName: String?
+    var tweetId: String?
     
     init(dictionary: NSDictionary){
         text = dictionary["text"] as? String
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
         favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
+        tweeterName = (dictionary["user"] as? NSDictionary)?["name"] as? String
+        tweeterProfileUrl = (dictionary["user"] as? NSDictionary)?["profile_image_url"] as? String
+        tweetId = dictionary["id_str"] as? String
         
         let timestampString = dictionary["created_at"] as? String
         

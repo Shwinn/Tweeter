@@ -29,6 +29,26 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func retweet(tweetId: String, success: @escaping () -> (), failure: @escaping (Error) -> ()){
+        print("made it to the retweet generic function")
+        post("1.1/statuses/retweet/\(tweetId).json", parameters: nil, progress: nil, success: {
+            (task: URLSessionDataTask, response: Any?) -> Void in
+            print("Retweet succeeded")
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            print("Retweet failed: \(error.localizedDescription)")
+        })
+    }
+    
+    func favorite(tweetId: String, success: @escaping () -> (), failure: @escaping (Error) -> ()){
+        print("made it to the favorite generic function")
+        post("1.1/favorites/create.json?id=\(tweetId)", parameters: nil, progress: nil, success: {
+            (task: URLSessionDataTask, response: Any?) -> Void in
+            print("Retweet succeeded")
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            print("Retweet failed: \(error.localizedDescription)")
+        })
+    }
+    
     func currentAccount(success: @escaping (User) -> (), failure: @escaping (Error) -> ()){
         get("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             
