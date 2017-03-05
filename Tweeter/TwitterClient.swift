@@ -49,6 +49,19 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func reply(params: NSDictionary, success: @escaping () -> (), failure: @escaping (Error) -> ()){
+        //print("1.1/statuses/update.json?status=\(status)&in_reply_to_status_id=\(tweetId)")
+        post("1.1/statuses/update.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            
+                print("Reply succeeded")
+            
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            
+                print("Reply failed")
+            
+        })
+    }
+    
     func currentAccount(success: @escaping (User) -> (), failure: @escaping (Error) -> ()){
         get("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             

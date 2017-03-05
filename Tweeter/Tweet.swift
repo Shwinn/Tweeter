@@ -16,6 +16,7 @@ class Tweet: NSObject {
     var tweeterProfileUrl: String?
     var tweeterName: String?
     var tweetId: String?
+    var tweeterUsername: String?
     
     init(dictionary: NSDictionary){
         text = dictionary["text"] as? String
@@ -24,6 +25,7 @@ class Tweet: NSObject {
         tweeterName = (dictionary["user"] as? NSDictionary)?["name"] as? String
         tweeterProfileUrl = (dictionary["user"] as? NSDictionary)?["profile_image_url"] as? String
         tweetId = dictionary["id_str"] as? String
+        tweeterUsername = (dictionary["user"] as? NSDictionary)?["screen_name"] as? String
         
         let timestampString = dictionary["created_at"] as? String
         
