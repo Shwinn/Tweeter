@@ -33,8 +33,19 @@ class TweetDetailViewController: UIViewController {
         tweetTextLabel.text = tweet.text
         profilePictureImageView.setImageWith(URL(string: tweet.tweeterProfileUrl!)!)
         replyButton.setBackgroundImage(UIImage.init(named: "reply-icon"), for: UIControlState.normal)
-        retweetButton.setBackgroundImage(UIImage.init(named: "retweet-icon"), for: UIControlState.normal)
-        favoriteButton.setBackgroundImage(UIImage.init(named: "favor-icon"), for: UIControlState.normal)
+        if(tweet.isRetweeted)!{
+            retweetButton.setBackgroundImage(UIImage(named: "retweet-icon-green"), for: .normal)
+        }
+        else {
+            retweetButton.setBackgroundImage(UIImage.init(named: "retweet-icon"), for: UIControlState.normal)
+        }
+        
+        if(tweet.isFavorited!){
+            favoriteButton.setBackgroundImage(UIImage(named: "favor-icon-1"), for: .normal)
+        }
+        else {
+            favoriteButton.setBackgroundImage(UIImage.init(named: "favor-icon"), for: UIControlState.normal)
+        }
         
         
     }
@@ -43,8 +54,14 @@ class TweetDetailViewController: UIViewController {
     }
     
     @IBAction func retweetButtonPressed(_ sender: Any) {
+        tweet.isRetweeted = !(tweet.isRetweeted!)
+        if (tweet.isRetweeted!){
+            retweetButton.setBackgroundImage(UIImage(named: "retweet-icon-green"), for: .normal)
+        }
+        else {
+            retweetButton.setBackgroundImage(UIImage.init(named: "retweet-icon"), for: UIControlState.normal)
+        }
         TwitterClient.sharedInstance?.retweet(tweetId: tweet.tweetId!, success: { () in
-            self.retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: .normal)
             
         }, failure: { (error: Error) in
             print(error.localizedDescription)
@@ -52,6 +69,13 @@ class TweetDetailViewController: UIViewController {
     }
     
     @IBAction func favoriteButtonPressed(_ sender: Any) {
+        tweet.isFavorited = !(tweet.isFavorited!)
+        if(tweet.isFavorited!){
+            favoriteButton.setBackgroundImage(UIImage(named: "favor-icon-1"), for: .normal)
+        }
+        else {
+            favoriteButton.setBackgroundImage(UIImage.init(named: "favor-icon"), for: UIControlState.normal)
+        }
         TwitterClient.sharedInstance?.favorite(tweetId: tweet.tweetId!, success: {
             self.favoriteButton.setImage(UIImage.init(named: "favor-icon-1"), for: UIControlState.normal)
         }, failure: { (error: Error) in

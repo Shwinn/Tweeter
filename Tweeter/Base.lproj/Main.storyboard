@@ -43,6 +43,52 @@
             </objects>
             <point key="canvasLocation" x="117.59999999999999" y="122.78860569715144"/>
         </scene>
+        <!--Compose View Controller-->
+        <scene sceneID="2oC-lv-R0K">
+            <objects>
+                <viewController id="6zE-mD-NHB" customClass="ComposeViewController" customModule="Tweeter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Fgi-8U-1Rl"/>
+                        <viewControllerLayoutGuide type="bottom" id="X3e-bb-wuu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pVP-u5-A1G">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AMQ-y5-t6J">
+                                <rect key="frame" x="155" y="72" width="66" height="30"/>
+                                <state key="normal" title="Compose"/>
+                                <connections>
+                                    <action selector="ReplyButtonPressed:" destination="pev-DI-6Zh" eventType="touchUpInside" id="cbP-vP-B3P"/>
+                                    <action selector="composeButtonPressed:" destination="6zE-mD-NHB" eventType="touchUpInside" id="UsJ-Hz-vgJ"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter Your Tweet Here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="V4I-Ch-10P">
+                                <rect key="frame" x="8" y="99" width="359" height="560"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="V4I-Ch-10P" firstAttribute="top" secondItem="Fgi-8U-1Rl" secondAttribute="bottom" constant="35" id="4jU-bg-hkW"/>
+                            <constraint firstItem="X3e-bb-wuu" firstAttribute="top" secondItem="V4I-Ch-10P" secondAttribute="bottom" constant="8" id="N5M-HC-EWc"/>
+                            <constraint firstItem="AMQ-y5-t6J" firstAttribute="top" secondItem="Fgi-8U-1Rl" secondAttribute="bottom" constant="8" id="WIH-jN-kdn"/>
+                            <constraint firstItem="AMQ-y5-t6J" firstAttribute="centerX" secondItem="pVP-u5-A1G" secondAttribute="centerX" id="iFp-TR-d1i"/>
+                            <constraint firstAttribute="trailing" secondItem="V4I-Ch-10P" secondAttribute="trailing" constant="8" id="kkz-9i-Q1h"/>
+                            <constraint firstItem="V4I-Ch-10P" firstAttribute="leading" secondItem="pVP-u5-A1G" secondAttribute="leading" constant="8" id="n0P-ZU-kYd"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="composeButton" destination="AMQ-y5-t6J" id="Yjq-zR-3bO"/>
+                        <outlet property="composeTweetTextView" destination="V4I-Ch-10P" id="TYH-Lb-nPN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tnv-vi-yed" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1757.5999999999999" y="-545.57721139430294"/>
+        </scene>
         <!--Profile View Controller-->
         <scene sceneID="DRH-Em-HZV">
             <objects>
@@ -261,12 +307,18 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Me"/>
                             <connections>
-                                <segue destination="MLX-HX-84j" kind="show" identifier="profileSegue" id="3so-H2-Fsf"/>
+                                <segue destination="MLX-HX-84j" kind="show" identifier="profileSeguefromMe" id="3so-H2-Fsf"/>
                             </connections>
                         </button>
+                        <barButtonItem key="rightBarButtonItem" image="edit-icon" id="GU1-YS-vIr">
+                            <connections>
+                                <segue destination="6zE-mD-NHB" kind="show" id="bkE-p6-bkM"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="DaJ-BD-cRF" id="8gh-wO-DKW"/>
+                        <segue destination="MLX-HX-84j" kind="show" identifier="profileSeguefromCell" id="znk-Ld-68Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lNe-RX-POp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -493,4 +545,10 @@
             <point key="canvasLocation" x="840.79999999999995" y="125.4872563718141"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="edit-icon" width="30" height="27"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="znk-Ld-68Q"/>
+    </inferredMetricsTieBreakers>
 </document>

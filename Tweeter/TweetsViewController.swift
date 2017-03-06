@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TweetCellDelegator {
 
     @IBOutlet weak var tableView: UITableView!
     var tweets: [Tweet]!
@@ -30,7 +30,17 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         }, failure: { (error: Error) in
             print(error.localizedDescription)
         })
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        TwitterClient.sharedInstance?.homeTimeLine(success: { (tweets: [Tweet]) in
+            self.tweets = tweets
+            self.tableView.reloadData()
+        }, failure: { (error: Error) in
+            print(error.localizedDescription)
+        })
+        self.tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
@@ -44,9 +54,11 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath as IndexPath) as! TweetCell
+        cell.delegate = self
         cell.tweet = tweets[indexPath.row]
         cell.retweetButton.tag = indexPath.row
         cell.favoriteButton.tag = indexPath.row
+        //cell.delegate = self
         
         return cell
     }
@@ -56,7 +68,9 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-
+    func callSegueFromCell(user: User){
+        self.performSegue(withIdentifier: "profileSeguefromCell", sender: user)
+    }
     
     // MARK: - Navigation
 
@@ -72,9 +86,13 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             let tweetDetailViewController = segue.destination as! TweetDetailViewController
             tweetDetailViewController.tweet = tweet
         }
-        if (segue.identifier == "profileSegue"){
+        if (segue.identifier == "profileSeguefromMe"){
             let profileViewController = segue.destination as! ProfileViewController
-            
+            profileViewController.tweetUser = User.currentUser
+        }
+        if (segue.identifier == "profileSeguefromCell") {
+            let profileViewController = segue.destination as! ProfileViewController
+            profileViewController.tweetUser = sender as! User
         }
 
         

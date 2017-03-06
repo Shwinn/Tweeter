@@ -18,12 +18,14 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var numFollowersLabel: UILabel!
     @IBOutlet weak var numFollowingLabel: UILabel!
     
+    var tweetUser: User!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let user = User.currentUser
+        let user = tweetUser
         tweeterNameLabel.text = user?.name
-        tweeterScreennameLabel.text = user?.screenname
+        tweeterScreennameLabel.text = "@\((user?.screenname)!)"
         numOfTweetsLabel.text = String(describing: user!.numOfTweets!)
         numFollowersLabel.text = String(describing: user!.numFollowers!)
         numFollowingLabel.text = String(describing: user!.numFollowing!)
